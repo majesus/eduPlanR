@@ -14,7 +14,7 @@ format:
     toc-float:
       collapsed: true
       smooth-scroll: true
-    toc-location: right
+    toc-location: left       # Cambiado de 'right' a 'left'
     toc-title: "Índice"
     toc-depth: 2
     number-sections: true
