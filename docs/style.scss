@@ -1,0 +1,112 @@
+/*-- scss:defaults --*/
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+/*-- scss:rules --*/
+// Variables
+$primary-font: Fraunces, "Times New Roman", serif;
+$secondary-font: Ubuntu, Arial, sans-serif;
+$background-color: white;
+$narrative-bg: rgba(47, 79, 79, 1);
+$text-color: #F0F5F5;
+$link-color: #508080;
+
+// Estilos base - asegurando que Fraunces se aplique a todo
+body, p, div, span, li {
+  font-family: $primary-font !important;
+  background-color: $background-color !important;
+}
+
+#quarto-document-content {
+  font-family: $primary-font;
+  font-size: 15pt;
+  margin-bottom: -50pt !important;
+
+  p, div, span {
+    font-family: $primary-font !important;
+  }
+
+  h1, h2 {
+    font-family: $primary-font;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  h1 { font-size: 2.8em; }
+  h2 { font-size: 2.2em; }
+
+  a { color: $link-color; }
+}
+
+// Estilos de CloseRead
+.cr-section {
+  background-color: $background-color !important;
+  font-family: $primary-font !important;
+
+  .narrative-col {
+    background-color: $narrative-bg;
+    color: $text-color;
+    min-width: 400px;
+    font-family: $primary-font !important;
+
+    p, div, span, li {
+      font-family: $primary-font !important;
+    }
+  }
+
+  .visual-col, .sticky-col {
+    background-color: $background-color !important;
+  }
+
+  .sticky-col {
+    padding: 10px;
+  }
+}
+
+// Estilos de texto específicos
+.narrative, .focus-on {
+  font-family: $primary-font !important;
+
+  * {
+    font-family: $primary-font !important;
+  }
+}
+
+// Estilos de overlay
+.cr-section {
+  &.overlay-left,
+  &.overlay-center,
+  &.overlay-right {
+    background-color: $background-color !important;
+
+    .narrative-col {
+      background-color: transparent;
+
+      .narrative {
+        background-color: rgba(17, 17, 17, .7);
+      }
+    }
+  }
+}
+
+// Media queries
+@media (max-width: 575.98px) {
+  .cr-section {
+    &.sidebar-left,
+    &.sidebar-right,
+    &.overlay-left,
+    &.overlay-right,
+    &.overlay-center {
+      background-color: $background-color !important;
+
+      .narrative-col {
+        background-color: transparent;
+
+        .narrative > * {
+          background-color: rgba(47, 79, 79, .85);
+          padding: 5px;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}
