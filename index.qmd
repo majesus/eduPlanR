@@ -12,28 +12,19 @@ format:
     page-layout: article      
     toc: true
     toc-float:
-      collapsed: true    # Inicia colapsado
+      collapsed: true
       smooth-scroll: true
-      expand: false      # Movido dentro de toc-float
-      collapse: true     # Movido dentro de toc-float
     toc-location: right
     toc-title: "Índice"
     toc-depth: 2
     number-sections: true
-    remove-header-space: false
-    debug-mode: false
-    
     embed-resources: true
-    
     footnotes-hover: true
     mediaPlanR-font-family: "Roboto Slab, Fraunces, 'Times New Roman', Times, serif"
     section-font-family: "Roboto Slab, Fraunces, 'Times New Roman', Times, serif"
     linkcolor: tomato
-
-project:
-  type: website
-  output-dir: docs
 ---
+
 
 ```{r setup}
 #| include: false
