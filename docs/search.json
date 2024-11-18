@@ -10,22 +10,22 @@
     "objectID": "index.html#pipe-operator",
     "href": "index.html#pipe-operator",
     "title": "dplyr",
-    "section": "2.1 Pipe Operator",
-    "text": "2.1 Pipe Operator\n\n\nPipe Operator (%&gt;%)  El operador pipe (%&gt;%) de dplyr facilita la escritura de secuencias de operaciones:  - Encadena múltiples funciones de dplyr - Mejora la legibilidad del código - Evita la creación de variables intermedias\n\n\n\n\nlibrary(dplyr)\n# Sin usar pipes\n1resultado &lt;- dplyr::filter(mtcars, mpg &gt; 20)\nresultado &lt;- dplyr::select(resultado, mpg, cyl, hp)\nresultado &lt;- dplyr::arrange(resultado, desc(hp))\nhead(resultado, 3)\n\n# Usando pipes\nmtcars %&gt;%\n2  dplyr::filter(mpg &gt; 20) %&gt;%\n  dplyr::select(mpg, cyl, hp) %&gt;%\n  dplyr::arrange(desc(hp)) %&gt;%\n  head(3)\n\n\n1\n\nEncadenar operaciones sin pipes\n\n2\n\nEncadenar operaciones con pipes"
+    "section": "2.1 Pipe Operator (%>%)",
+    "text": "2.1 Pipe Operator (%&gt;%)\n\n\nPipe Operator (%&gt;%)  El operador pipe (%&gt;%) de dplyr facilita la escritura de secuencias de operaciones:  - Encadena múltiples funciones de dplyr - Mejora la legibilidad del código - Evita la creación de variables intermedias\n\n\n\n\nlibrary(dplyr)\n# Sin usar pipes\n1resultado &lt;- dplyr::filter(mtcars, mpg &gt; 20)\nresultado &lt;- dplyr::select(resultado, mpg, cyl, hp)\nresultado &lt;- dplyr::arrange(resultado, desc(hp))\nhead(resultado, 3)\n\n# Usando pipes\nmtcars %&gt;%\n2  dplyr::filter(mpg &gt; 20) %&gt;%\n  dplyr::select(mpg, cyl, hp) %&gt;%\n  dplyr::arrange(desc(hp)) %&gt;%\n  head(3)\n\n\n1\n\nEncadenar operaciones sin pipes\n\n2\n\nEncadenar operaciones con pipes"
   },
   {
     "objectID": "index.html#select",
     "href": "index.html#select",
     "title": "dplyr",
-    "section": "2.2 Select()",
-    "text": "2.2 Select()\n\n\nSelect()  La función select() de dplyr manipula columnas de tres formas:  - Selecciona qué columnas mantener/descartar - Reordena su posición en el data frame - Renombra columnas en un solo paso\n\n\n\n\n\nlibrary(dplyr)\n# Selección simple de columnas\n1mtcars %&gt;%\n  dplyr::select(mpg, cyl, disp) %&gt;%\n  head(3)\n# Descarte simple de columnas\nmtcars %&gt;%\n2  dplyr::select(-mpg, -cyl, -disp) %&gt;%\n  head(3)\n# Selección con renombrado\nmtcars %&gt;%\n  dplyr::select(cilindros = cyl, consumo = mpg) %&gt;%\n  head(3)\n\n\n1\n\nFunción select()\n\n2\n\nDescartar columnas"
+    "section": "2.2 2.2. Select()",
+    "text": "2.2 2.2. Select()\n\n\nSelect()  La función select() de dplyr manipula columnas de tres formas:  - Selecciona qué columnas mantener/descartar - Reordena su posición en el data frame - Renombra columnas en un solo paso\n\n\n\n\n\nlibrary(dplyr)\n# Selección simple de columnas\n1mtcars %&gt;%\n  dplyr::select(mpg, cyl, disp) %&gt;%\n  head(3)\n# Descarte simple de columnas\nmtcars %&gt;%\n2  dplyr::select(-mpg, -cyl, -disp) %&gt;%\n  head(3)\n# Selección con renombrado\nmtcars %&gt;%\n  dplyr::select(cilindros = cyl, consumo = mpg) %&gt;%\n  head(3)\n\n\n1\n\nFunción select()\n\n2\n\nDescartar columnas"
   },
   {
     "objectID": "index.html#select-helpers",
     "href": "index.html#select-helpers",
     "title": "dplyr",
-    "section": "2.3 Select Helpers",
-    "text": "2.3 Select Helpers\n\n\nSelect Helpers  Los helpers de select() permiten selección avanzada de columnas:  - all_of(), any_of(): Seleccionar usando vectores - starts_with(), ends_with(): Seleccionar por patronesde texto - everything(), last_col(): Seleccionar utilidades\n\n\n\n\n\nlibrary(dplyr)\n# Seleccionar con vectores de nombres\nvars_necesarias &lt;- c(\"mpg\", \"hp\", \"columna_inexistente\")\nmtcars %&gt;%\n1  dplyr::select(all_of(c(\"mpg\", \"hp\"))) %&gt;%\n  head(3)\n# Seleccionar ignorando inexistentes\nmtcars %&gt;%\n2  dplyr::select(any_of(vars_necesarias)) %&gt;%\n  head(3)\n# Seleccionar por patrones de texto\nmtcars %&gt;%\n3  dplyr::select(starts_with(\"c\"), contains(\"p\")) %&gt;%\n  head(3)\n# Funciones de utilidad\nmtcars %&gt;%\n4  dplyr::select(hp, everything()) %&gt;%\n  head(3)\nmtcars %&gt;%\n5  dplyr::select(mpg, last_col()) %&gt;%\n  head(3)\n\n\n1\n\nall_of() falla si alguna variable no existe\n\n2\n\nany_of() ignora variables inexistentes\n\n3\n\nSeleccionar columnas por patrones de texto\n\n4\n\neverything() selecciona todas las columnas restantes\n\n5\n\nlast_col() selecciona la última columna"
+    "section": "2.3 2.3. Select Helpers",
+    "text": "2.3 2.3. Select Helpers\n\n\nSelect Helpers  Los helpers de select() permiten selección avanzada de columnas:  - all_of(), any_of(): Seleccionar usando vectores - starts_with(), ends_with(): Seleccionar por patronesde texto - everything(), last_col(): Seleccionar utilidades\n\n\n\n\n\nlibrary(dplyr)\n# Seleccionar con vectores de nombres\nvars_necesarias &lt;- c(\"mpg\", \"hp\", \"columna_inexistente\")\nmtcars %&gt;%\n1  dplyr::select(all_of(c(\"mpg\", \"hp\"))) %&gt;%\n  head(3)\n# Seleccionar ignorando inexistentes\nmtcars %&gt;%\n2  dplyr::select(any_of(vars_necesarias)) %&gt;%\n  head(3)\n# Seleccionar por patrones de texto\nmtcars %&gt;%\n3  dplyr::select(starts_with(\"c\"), contains(\"p\")) %&gt;%\n  head(3)\n# Funciones de utilidad\nmtcars %&gt;%\n4  dplyr::select(hp, everything()) %&gt;%\n  head(3)\nmtcars %&gt;%\n5  dplyr::select(mpg, last_col()) %&gt;%\n  head(3)\n\n\n1\n\nall_of() falla si alguna variable no existe\n\n2\n\nany_of() ignora variables inexistentes\n\n3\n\nSeleccionar columnas por patrones de texto\n\n4\n\neverything() selecciona todas las columnas restantes\n\n5\n\nlast_col() selecciona la última columna"
   },
   {
     "objectID": "index.html#filter",
