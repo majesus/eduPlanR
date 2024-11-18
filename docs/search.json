@@ -1,0 +1,191 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "dplyr",
+    "section": "",
+    "text": "dplyr es un paquete en R desarrollado por Hadley Wickham y su equipo que proporciona un conjunto de herramientas para la manipulación de datos. Es parte del ecosistema tidyverse, que es un conjunto de paquetes que comparten principios de diseño y filosofía en común para facilitar el trabajo con datos en R."
+  },
+  {
+    "objectID": "index.html#pipe-operator",
+    "href": "index.html#pipe-operator",
+    "title": "dplyr",
+    "section": "2.1 Pipe Operator",
+    "text": "2.1 Pipe Operator\n\n\n El operador pipe %&gt;% de dplyr facilita la escritura de secuencias de operaciones:  - Encadena múltiples funciones de dplyr - Mejora la legibilidad del código - Evita la creación de variables intermedias\n\n\n\n\nlibrary(dplyr)\n# Sin usar pipes\n1resultado &lt;- dplyr::filter(mtcars, mpg &gt; 20)\nresultado &lt;- dplyr::select(resultado, mpg, cyl, hp)\nresultado &lt;- dplyr::arrange(resultado, desc(hp))\nhead(resultado, 3)\n\n# Usando pipes\nmtcars %&gt;%\n2  dplyr::filter(mpg &gt; 20) %&gt;%\n  dplyr::select(mpg, cyl, hp) %&gt;%\n  dplyr::arrange(desc(hp)) %&gt;%\n  head(3)\n\n\n1\n\nEncadenar operaciones sin pipes, %&gt;%\n\n2\n\nEncadenar operaciones con pipes, %&gt;%"
+  },
+  {
+    "objectID": "index.html#select",
+    "href": "index.html#select",
+    "title": "dplyr",
+    "section": "2.2 Select()",
+    "text": "2.2 Select()\n\n\n La función select() de dplyr manipula columnas de tres formas:  - Selecciona qué columnas mantener/descartar - Reordena su posición en el data frame - Renombra columnas en un solo paso\n\n\n\n\n\nlibrary(dplyr)\n# Selección simple de columnas\nmtcars %&gt;%                                              \n1  dplyr::select(mpg, cyl, disp) %&gt;%\n  head(3)\n# Descarte simple de columnas\nmtcars %&gt;%\n2  dplyr::select(-mpg, -cyl, -disp) %&gt;%\n  head(3)\n# Selección con renombrado\nmtcars %&gt;%\n3  dplyr::select(cilindros = cyl, consumo = mpg) %&gt;%\n  head(3)\n\n\n1\n\nSelecciona y reordena columnas\n\n2\n\nDescarta columnas\n\n3\n\nSelecciona, reordena y renombra columnas"
+  },
+  {
+    "objectID": "index.html#select-helpers",
+    "href": "index.html#select-helpers",
+    "title": "dplyr",
+    "section": "2.3 Select Helpers",
+    "text": "2.3 Select Helpers\n\n\n Los helpers de select() permiten selección avanzada de columnas:  - all_of(), any_of(): Seleccionar usando vectores - starts_with(), ends_with(): Seleccionar por patronesde texto - everything(), last_col(): Seleccionar utilidades\n\n\n\n\n\nlibrary(dplyr)\n# Seleccionar con vectores de nombres\nvars_necesarias &lt;- c(\"mpg\", \"hp\", \"columna_inexistente\")\nmtcars %&gt;%\n1  dplyr::select(all_of(c(\"mpg\", \"hp\"))) %&gt;%\n  head(3)\n# Seleccionar ignorando inexistentes\nmtcars %&gt;%\n2  dplyr::select(any_of(vars_necesarias)) %&gt;%\n  head(3)\n# Seleccionar por patrones de texto\nmtcars %&gt;%\n3  dplyr::select(starts_with(\"c\"), contains(\"p\")) %&gt;%\n  head(3)\n# Funciones de utilidad\nmtcars %&gt;%\n4  dplyr::select(hp, everything()) %&gt;%\n  head(3)\nmtcars %&gt;%\n5  dplyr::select(mpg, last_col()) %&gt;%\n  head(3)\nmtcars %&gt;%\n6  dplyr::select(mpg, last_col(1)) %&gt;%\n  head(3)\n\n\n1\n\nall_of() falla si alguna variable no existe\n\n2\n\nany_of() ignora variables inexistentes\n\n3\n\nSeleccionar columnas por patrones de texto\n\n4\n\nreordena: mpg y todas columnas restantes\n\n5\n\nlast_col() selecciona la última columna\n\n6\n\nlast_col(1) selecciona la penúltima columna"
+  },
+  {
+    "objectID": "index.html#filter",
+    "href": "index.html#filter",
+    "title": "dplyr",
+    "section": "2.4 Filter()",
+    "text": "2.4 Filter()\n\n\n La función filter() de dplyr permite filtrar filas basadas en condiciones:  - Filtra filas que cumplen una condición lógica - Permite combinar múltiples condiciones - Soporta operaciones lógicas complejas\n\n\n\n\n\nlibrary(dplyr)\n# Filtrar filas donde mpg &gt; 20\nmtcars %&gt;%\n1  dplyr::filter(mpg &gt; 20) %&gt;%\n  head(3)\n# Filtrar filas con múltiples condiciones\nmtcars %&gt;%\n2  dplyr::filter(mpg &gt; 20, cyl == 4) %&gt;%\n  head(3)\n# Filtrar con operadores lógicos\nmtcars %&gt;%\n3  dplyr::filter(mpg &gt; 20 | hp &gt; 100) %&gt;%\n  head(3)\n\n\n1\n\nFiltrar filas con una condición\n\n2\n\nFiltrar filas con múltiples condiciones\n\n3\n\nFiltrar filas con operadores lógicos"
+  },
+  {
+    "objectID": "index.html#filter-helpers",
+    "href": "index.html#filter-helpers",
+    "title": "dplyr",
+    "section": "2.5 Filter Helpers",
+    "text": "2.5 Filter Helpers\n\n\n  Los helpers de filter() permiten filtrado más sofisticado:  - between(): Filtrar valores en un rango - near(): Comparar números con tolerancia - is.na(), !is.na(): Manejar valores NA\n\n\n\n\n\nlibrary(dplyr)\n# Filtrar valores en un rango\nmtcars %&gt;%\n1  dplyr::filter(between(mpg, 20, 25)) %&gt;%\n  head(3)\n\n# Comparar números con tolerancia\nmtcars %&gt;%\n2  dplyr::filter(near(mpg, 21, tol = 0.5)) %&gt;%\n  head(3)\n\n# Filtrar excluyendo NA\nmtcars %&gt;%\n3  dplyr::filter(!is.na(mpg)) %&gt;%\n  head(3)\n\n\n1\n\nFiltra valores dentro de un intervalo inclusivo [a,b]\n\n2\n\nFiltra mediante comparaciones con tolerancia numérica\n\n3\n\nManeja y filtra valores NA explícitamente"
+  },
+  {
+    "objectID": "index.html#filter-extensions",
+    "href": "index.html#filter-extensions",
+    "title": "dplyr",
+    "section": "2.6 Filter Extensions",
+    "text": "2.6 Filter Extensions\n\n\n Funciones avanzadas para filtrado múltiple:  - if_any(): filtra filas donde AL MENOS UNA variable cumple su condición - if_all(): filtra filas donde TODAS las variables cumplen su condición - Útil para condiciones complejas en múltiples columnas\n\n\n\n\n\nlibrary(dplyr)\n# Primero, veamos las medias de referencia\nmtcars %&gt;%\n  summarise(\n    media_hp = mean(hp),    # Es 146.7\n    media_mpg = mean(mpg)   # Es 20.1\n  )\n# Filtrado con if_any (OR lógico)\nmtcars %&gt;%\n1  filter(if_any(c(hp, mpg), ~ . &gt; mean(.))) %&gt;%\n  select(hp, mpg) %&gt;%\n  arrange(desc(hp)) %&gt;%\n  head(3)\n# Filtrado con if_all (AND lógico)\nmtcars %&gt;%\n2  filter(if_all(c(hp, mpg), ~ . &gt; mean(.))) %&gt;%\n  select(hp, mpg) %&gt;%\n  arrange(desc(hp))\n\n\n1\n\nMantiene filas donde hp &gt; 146.7 O mpg &gt; 20.1 (basta una condición)\n\n2\n\nMantiene filas donde hp &gt; 146.7 Y mpg &gt; 20.1 (ambas condiciones)"
+  },
+  {
+    "objectID": "index.html#slice",
+    "href": "index.html#slice",
+    "title": "dplyr",
+    "section": "2.7 Slice",
+    "text": "2.7 Slice\n\n\n La función slice() de dplyr selecciona filas por posición:  - Selecciona filas específicas por índice - Útil para tomar subconjuntos por posición - Puede seleccionar rangos o filas específicas\n\n\n\n\n\nlibrary(dplyr)\n# Seleccionar la primera fila\nmtcars %&gt;%\n1  dplyr::slice(1) %&gt;%\n  head(3)\n# Seleccionar la primera fila\nmtcars %&gt;%\n2  dplyr::slice(1, 4) %&gt;%\n  head(3)\n# Seleccionar múltiples filas\nmtcars %&gt;%\n3  dplyr::slice(1:3) %&gt;%\n  head(3)\n\n\n1\n\nSelecciona una fila específica\n\n2\n\nSelecciona varias filas específicas\n\n3\n\nSelecciona un rango de filas"
+  },
+  {
+    "objectID": "index.html#slice-variations",
+    "href": "index.html#slice-variations",
+    "title": "dplyr",
+    "section": "2.8 Slice Variations",
+    "text": "2.8 Slice Variations\n\n\n Las variantes de slice() ofrecen diferentes formas de selección:  - slice_head(), slice_tail(): Primeras/últimas filas - slice_min(), slice_max(): Filas basadas en valores - slice_sample(): Muestreo aleatorio\n\n\n\n\n\nlibrary(dplyr)\n# Seleccionar primeras filas\nmtcars %&gt;%\n1  dplyr::slice_head(n = 3)\n# Seleccionar las filas con valores máximos\nmtcars %&gt;%\n2  dplyr::slice_max(order_by = mpg, n = 3, with_ties = TRUE)\n# Seleccionar las filas con valores máximos\nmtcars %&gt;%\n3  dplyr::slice_min(order_by = mpg, n = 3, with_ties = TRUE)\n# Seleccionar muestra aleatoria n filas\nmtcars %&gt;%\n4  dplyr::slice_sample(n = 10, replace = FALSE)\n# Seleccionar muestra aleatoria prop de filas\nmtcars %&gt;%\n5  dplyr::slice_sample(prop = 0.1, replace = FALSE)\n# Seleccionar muestra aleatoria prop de filas\nmtcars %&gt;%\n6  dplyr::slice_sample(prop = 0.1, by = cyl, replace = FALSE)\n\n\n1\n\nSelecciona las primeras n filas\n\n2\n\nSelecciona las top n filas por valor max\n\n3\n\nSelecciona las top n filas por valor min\n\n4\n\nMuestra aleatoria de n filas\n\n5\n\nMuestra aleatoria de proporción de filas\n\n6\n\nMuestra aleatoria de proporción de filas por variable"
+  },
+  {
+    "objectID": "index.html#arrange",
+    "href": "index.html#arrange",
+    "title": "dplyr",
+    "section": "2.9 Arrange",
+    "text": "2.9 Arrange\n\n\n La función arrange() de dplyr ordena las filas de un data frame:  - Ordena en orden ascendente o descendente - Puede ordenar por múltiples columnas - Mantiene todas las filas\n\n\n\n\n\nlibrary(dplyr)\n# Ordenar por mpg ascendente\nmtcars %&gt;%\n1  dplyr::arrange(mpg) %&gt;%\n  head(3)\n# Ordenar por hp descendente\nmtcars %&gt;%\n2  dplyr::arrange(desc(hp)) %&gt;%\n  head(3)\n# Ordenar por cyl ascendente, y mpg descendente\nmtcars %&gt;%\n3  dplyr::arrange(cyl, desc(mpg)) %&gt;%\n  head(3)\n\n\n1\n\nOrdena en orden ascendente\n\n2\n\nOrdena en orden descendente\n\n3\n\nOrdena por múltiples columnas"
+  },
+  {
+    "objectID": "index.html#relocate",
+    "href": "index.html#relocate",
+    "title": "dplyr",
+    "section": "2.10 Relocate",
+    "text": "2.10 Relocate\n\n\n La función relocate() reposiciona columnas en el dataset: \nMueve columnas a posiciones específicas Acepta helpers como starts_with(), contains() Más flexible que select() para reordenar\n\n\n\n\n\n# Mover columnas al inicio\nmtcars %&gt;%\n1  dplyr::relocate(hp, cyl) %&gt;%\n  head(3)\n\n# Mover columnas después de una específica\nmtcars %&gt;%\n2  dplyr::relocate(carb, .after = mpg) %&gt;%\n  head(3)\n# Mover columnas antes de una específica\nmtcars %&gt;%\n3  dplyr::relocate(hp, .before = mpg) %&gt;%\n  head(3)\n\n\n1\n\nMueve columnas al inicio del dataset\n\n2\n\nReposiciona después de una columna específica\n\n3\n\nReposiciona antes de una columna específica"
+  },
+  {
+    "objectID": "index.html#distinct",
+    "href": "index.html#distinct",
+    "title": "dplyr",
+    "section": "2.11 Distinct",
+    "text": "2.11 Distinct\n\n\n La función distinct() de dplyr elimina filas duplicadas:  - Retiene filas únicas - Puede especificar columnas para la unicidad - Útil para limpiar datos\n\n\n\n\n\nlibrary(dplyr)\n# Eliminar filas duplicadas basadas en todas las columnas\nmtcars %&gt;%\n1  dplyr::distinct() %&gt;%\n  head(3)\n# Eliminar duplicados basados en una columna\nmtcars %&gt;%\n2  dplyr::distinct(cyl, .keep_all = TRUE) %&gt;%\n  head(3)\n# Eliminar duplicados basados en múltiples columnas\nmtcars %&gt;%\n3  dplyr::distinct(cyl, gear, .keep_all = TRUE) %&gt;%\n  head(3)\n\n\n1\n\nElimina duplicados en todas las columnas\n\n2\n\nElimina duplicados basados en una columna, mantener todas las columnas\n\n3\n\nElimina duplicados basados en múltiples columnas"
+  },
+  {
+    "objectID": "index.html#mutate-básico",
+    "href": "index.html#mutate-básico",
+    "title": "dplyr",
+    "section": "3.1 Mutate Básico",
+    "text": "3.1 Mutate Básico\n\n\n La función mutate() de dplyr añade nuevas columnas o transforma existentes:  - Crea nuevas columnas basadas en cálculos - Modifica columnas existentes - Permite el uso de funciones de resumen\n\n\n\n\n\nlibrary(dplyr)\n# Crear una nueva columna de eficiencia\nmtcars %&gt;%\n1  dplyr::mutate(eficiencia = mpg / wt) %&gt;%\n  head(3)\n# Modificar una columna existente\nmtcars %&gt;%\n2  dplyr::mutate(mpg = mpg * 1.1) %&gt;%\n  head(3)\n# Usar funciones dentro de mutate\nmtcars %&gt;%\n3  dplyr::mutate(log_hp = log(hp)) %&gt;%\n  head(3)\n\n\n1\n\nCrea nuevas columnas\n\n2\n\nModifica columnas existentes\n\n3\n\nAplica funciones a columnas"
+  },
+  {
+    "objectID": "index.html#mutate-avanzado",
+    "href": "index.html#mutate-avanzado",
+    "title": "dplyr",
+    "section": "3.2 Mutate Avanzado",
+    "text": "3.2 Mutate Avanzado\n\n\n Funciones avanzadas para manipulación de datos:  - case_when() y if_else() para transformaciones condicionales - across() para aplicar funciones a múltiples columnas - between(), lag() y lead() para análisis de valores\n\n\n\n\n\nlibrary(dplyr)\n# Usar case_when y if_else\nmtcars %&gt;%\n  dplyr::mutate(\n    potencia = case_when(\n      hp &lt; 100 ~ \"Baja\",\n      hp &lt; 200 ~ \"Media\",\n      TRUE ~ \"Alta\"\n    ),\n    eficiente = if_else(mpg &gt; 20, \"Sí\", \"No\")\n1  ) %&gt;%\n  head(3)\n\n# Usar across para múltiples columnas\nmtcars %&gt;%\n2  dplyr::mutate(across(c(mpg, hp), round)) %&gt;%\n  head(3)\n\n# Usar between, lag y lead\nmtcars %&gt;%\n  dplyr::arrange(mpg) %&gt;%\n  dplyr::mutate(\n    en_rango = between(mpg, 20, 25),\n    mpg_anterior = lag(mpg),\n    mpg_siguiente = lead(mpg)\n3  ) %&gt;%\n  head(3)\n\n\n1\n\nTransforma basado en condiciones múltiples con case_when\n\n2\n\nAplica transformaciones a múltiples columnas simultáneamente con across()\n\n3\n\nAnaliza valores relativos y secuencias temporales"
+  },
+  {
+    "objectID": "index.html#transmute",
+    "href": "index.html#transmute",
+    "title": "dplyr",
+    "section": "3.3 Transmute",
+    "text": "3.3 Transmute\n\n\n La función transmute() de dplyr crea nuevas columnas y descarta las existentes:  - Similar a mutate(), pero solo mantiene las nuevas columnas - Útil para crear subconjuntos de datos transformados - Simplifica el data frame resultante\n\n\n\n\n\nlibrary(dplyr)\n# Crear nuevas columnas y descartar las originales\nmtcars %&gt;%\n  dplyr::transmute(consumo = mpg * 1.1,\n1                   potencia = hp / 2) %&gt;%\n  head(3)\n# Transmute con condiciones\nmtcars %&gt;%\n  dplyr::transmute(consumo = ifelse(mpg &gt; 20, \"Alto\", \"Bajo\"),\n2                   cilindros = cyl) %&gt;%\n  head(3)\n# Transmute con funciones\nmtcars %&gt;%\n  dplyr::transmute(log_hp = log(hp),\n3                   sqrt_disp = sqrt(disp)) %&gt;%\n  head(3)\n\n\n1\n\nCrea nuevas columnas básicas, y descarta las originales\n\n2\n\nTransmuta con condiciones\n\n3\n\nTransmuta usando funciones"
+  },
+  {
+    "objectID": "index.html#rename",
+    "href": "index.html#rename",
+    "title": "dplyr",
+    "section": "3.4 Rename",
+    "text": "3.4 Rename\n\n\n La función rename() de dplyr cambia el nombre de columnas específicas:  - Renombra una o más columnas - No afecta otras columnas - Mantiene el orden de las columnas\n\n\n\n\n\nlibrary(dplyr)\n# Renombrar una columna\nmtcars %&gt;%\n1  dplyr::rename(consumo = mpg) %&gt;%\n  head(3)\n# Renombrar múltiples columnas\nmtcars %&gt;%\n2  dplyr::rename(consumo = mpg, cilindros = cyl) %&gt;%\n  head(3)\n# Renombrar y seleccionar\nmtcars %&gt;%\n  dplyr::rename(consumo = mpg) %&gt;%\n3  dplyr::select(consumo, everything()) %&gt;%\n  head(3)\n\n\n1\n\nRenombrar una sola columna\n\n2\n\nRenombrar múltiples columnas\n\n3\n\nRenombrar y reordenar columnas"
+  },
+  {
+    "objectID": "index.html#rename_with",
+    "href": "index.html#rename_with",
+    "title": "dplyr",
+    "section": "3.5 Rename_with",
+    "text": "3.5 Rename_with\n\n\n La función rename_with() de dplyr aplica una función a los nombres de columnas:  - Transforma nombres de columnas de manera programática - Útil para estandarizar o modificar nombres - Soporta funciones como tolower, toupper, etc.\n\n\n\n\n\nlibrary(dplyr)\n# Convertir nombres de columnas a minúsculas\nmtcars %&gt;%\n1  dplyr::rename_with(tolower) %&gt;%\n  head(3)\n# Añadir prefijo a nombres de columnas\nmtcars %&gt;%\n2  dplyr::rename_with(~ paste0(\"var_\", .)) %&gt;%\n  head(3)\n# Aplicar una función personalizada\nmtcars %&gt;%\n3  dplyr::rename_with(function(x) toupper(x)) %&gt;%\n  head(3)\n\n\n1\n\nTransforma nombres a minúsculas\n\n2\n\nAñade prefijos a nombres\n\n3\n\nAplica funciones personalizadas (e.g., mayúsculas) a nombres"
+  },
+  {
+    "objectID": "index.html#summarise-básico",
+    "href": "index.html#summarise-básico",
+    "title": "dplyr",
+    "section": "4.1 Summarise Básico",
+    "text": "4.1 Summarise Básico\n\n\n La función summarise() de dplyr resume datos mediante cálculos:  - Calcula estadísticas resumidas - Se usa comúnmente con group_by() - Reduce el data frame a una sola fila por grupo\n\n\n\n\n\nlibrary(dplyr)\n# Resumir con promedio de mpg\nmtcars %&gt;%\n1  dplyr::summarise(promedio_mpg = mean(mpg)) %&gt;%\n  head(3)\n# Resumir con múltiples estadísticas\nmtcars %&gt;%\n  dplyr::summarise(promedio_mpg = mean(mpg),\n2                   max_hp = max(hp)) %&gt;%\n  head(3)\n# Resumir por grupos\nmtcars %&gt;%\n  dplyr::group_by(cyl) %&gt;%\n  dplyr::summarise(promedio_mpg = mean(mpg),\n3                   conteo = n()) %&gt;%\n  head(3)\n\n\n1\n\nResumir con una sola estadística\n\n2\n\nResumir con múltiples estadísticas\n\n3\n\nResumir por grupos"
+  },
+  {
+    "objectID": "index.html#summarise-avanzado",
+    "href": "index.html#summarise-avanzado",
+    "title": "dplyr",
+    "section": "4.2 Summarise Avanzado",
+    "text": "4.2 Summarise Avanzado\n\n\n Técnicas avanzadas de resumen:  - summarise_all(): Aplicar a todas las columnas - summarise_if(): Aplicar condicionalmente - summarise_at(): Aplicar a columnas específicas\n\n\n\n\n\nlibrary(dplyr)\n# Resumir todas las columnas numéricas\nmtcars %&gt;%\n1  dplyr::summarise_all(list(mean = mean, sd = sd)) %&gt;%\n  head(3)\n\n# Resumir columnas que cumplen condición\nmtcars %&gt;%\n  dplyr::summarise_if(is.numeric, \n2                      list(mean = mean, sd = sd)) %&gt;%\n  head(3)\n\n# Resumir columnas específicas con múltiples funciones\nmtcars %&gt;%\n  dplyr::summarise_at(vars(mpg, hp),\n3                      list(min = min, max = max)) %&gt;%\n  head(3)\n\n\n1\n\nResume todas las columnas\n\n2\n\nResume condicionalmente\n\n3\n\nResume columnas específicas"
+  },
+  {
+    "objectID": "index.html#group_by-básico",
+    "href": "index.html#group_by-básico",
+    "title": "dplyr",
+    "section": "4.3 Group_by Básico",
+    "text": "4.3 Group_by Básico\n\n\n La función group_by() de dplyr agrupa el data frame para operaciones posteriores:  - Agrupa filas basadas en una o más columnas - Es esencial para cálculos por grupo - No modifica el orden de las filas\n\n\n\n\n\nlibrary(dplyr)\n# Agrupar por número de cilindros\nmtcars %&gt;%\n1  dplyr::group_by(cyl) %&gt;%\n  dplyr::summarise(promedio_mpg = mean(mpg)) %&gt;%\n  head(3)\n# Agrupar por cilindros y transmisión\nmtcars %&gt;%\n2  dplyr::group_by(cyl, am) %&gt;%\n  dplyr::summarise(promedio_mpg = mean(mpg)) %&gt;%\n  head(3)\n# Usar group_by con mutate\nmtcars %&gt;%\n  dplyr::group_by(cyl) %&gt;%\n3  dplyr::mutate(promedio_mpg = mean(mpg)) %&gt;%\n  head(3)\n\n\n1\n\nAgrupa por una columna\n\n2\n\nAgrupa por múltiples columnas\n\n3\n\nAgrupa y muta (transforma)"
+  },
+  {
+    "objectID": "index.html#group_by-avanzado",
+    "href": "index.html#group_by-avanzado",
+    "title": "dplyr",
+    "section": "4.4 Group_by Avanzado",
+    "text": "4.4 Group_by Avanzado\n\n\n Técnicas avanzadas de agrupación:  - group_by() con múltiples columnas - group_modify() para operaciones complejas - ungroup() para eliminar agrupaciones\n\n\n\n\n\nlibrary(dplyr)\n# Agrupación múltiple con cálculos\nmtcars %&gt;%\n  dplyr::group_by(cyl, am) %&gt;%\n  dplyr::summarise(\n    mpg_mean = mean(mpg),\n    hp_sd = sd(hp)\n1  ) %&gt;%\n  head(3)\n\n# Usar group_modify para operaciones complejas\nmtcars %&gt;%\n  dplyr::group_by(cyl) %&gt;%\n2  dplyr::group_modify(~ head(.x, 2)) %&gt;%\n  head(3)\n\n# Desagrupar y realizar operaciones\nmtcars %&gt;%\n  dplyr::group_by(cyl) %&gt;%\n  dplyr::mutate(mpg_mean = mean(mpg)) %&gt;%\n3  dplyr::ungroup() %&gt;%\n  dplyr::mutate(overall_diff = mpg - mean(mpg)) %&gt;%\n  head(3)\n\n\n1\n\nAplica resúmenes por múltiples variables de agrupación\n\n2\n\nEjecuta función personalizada en cada grupo manteniendo la estructura\n\n3\n\nElimina agrupación para cálculos a nivel global"
+  },
+  {
+    "objectID": "index.html#count",
+    "href": "index.html#count",
+    "title": "dplyr",
+    "section": "4.5 Count",
+    "text": "4.5 Count\n\n\n La función count() de dplyr cuenta las ocurrencias de combinaciones de variables:  - Cuenta frecuencias de combinaciones únicas - Simplifica group_by() y summarise(n = n()) - Útil para análisis exploratorio\n\n\n\n\n\nlibrary(dplyr)\n# Contar el número de cilindros\nmtcars %&gt;%\n1  dplyr::count(cyl) %&gt;%\n  head(3)\n# Contar combinaciones de cilindros y gears\nmtcars %&gt;%\n2  dplyr::count(cyl, gear) %&gt;%\n  head(3)\n# Contar y ordenar por frecuencia\nmtcars %&gt;%\n3  dplyr::count(cyl, sort = TRUE) %&gt;%\n  head(3)\n\n\n1\n\nCuenta valores de una variable\n\n2\n\nCuenta valores de múltiples variables\n\n3\n\nCuenta valores de una variable, y ordena por frecuencia"
+  },
+  {
+    "objectID": "index.html#join-functions-básicas",
+    "href": "index.html#join-functions-básicas",
+    "title": "dplyr",
+    "section": "5.1 Join Functions Básicas",
+    "text": "5.1 Join Functions Básicas\n\n\n Las funciones de join en dplyr combinan data frames basándose en claves:  - left_join(), right_join(), inner_join(), full_join() - Unen data frames por columnas comunes - Manejan duplicados y filas no coincidentes\n\n\n\n\n\nlibrary(dplyr)\n\n# Crear un data frame de fabricantes con los nombres reales de los modelos del dataset mtcars\nfabricantes &lt;- data.frame(\n  car = rownames(mtcars),\n  fabricante = c(\n    \"Mazda\", \"Mazda\",           # Mazda RX4 y RX4 Wag\n    \"Datsun\",                   # Datsun 710\n    \"AMC\", \"AMC\",               # Hornet 4 Drive y Hornet Sportabout\n    \"Plymouth\",                 # Valiant\n    \"Plymouth\",                 # Duster 360\n    \"Mercedes\", \"Mercedes\",     # Merc 240D y Merc 230\n    \"Mercedes\", \"Mercedes\",     # Merc 280 y Merc 280C\n    \"Mercedes\", \"Mercedes\",     # Merc 450SE y Merc 450SL\n    \"Mercedes\", \"Mercedes\",     # Merc 450SLC y Cadillac\n    \"Lincoln\",                  # Lincoln Continental\n    \"Chrysler\",                 # Chrysler Imperial\n    \"Fiat\",                     # Fiat 128\n    \"Honda\",                    # Honda Civic\n    \"Toyota\",                   # Toyota Corolla\n    \"Toyota\",                   # Toyota Corona\n    \"Dodge\",                    # Dodge Challenger\n    \"AMC\",                      # AMC Javelin\n    \"Camaro\",                   # Camaro Z28\n    \"Pontiac\",                  # Pontiac Firebird\n    \"Fiat\",                     # Fiat X1-9\n    \"Porsche\",                  # Porsche 914-2\n    \"Lotus\",                    # Lotus Europa\n    \"Ford\",                     # Ford Pantera L\n    \"Ferrari\",                  # Ferrari Dino\n    \"Maserati\"                  # Maserati Bora\n  )\n)\n# left_join ejemplo\nmtcars %&gt;%\n1  dplyr::left_join(fabricantes, by = c(\"rownames(mtcars)\" = \"car\")) %&gt;%\n  head(3)\n\n# inner_join ejemplo\nmtcars %&gt;%\n2  dplyr::inner_join(fabricantes, by = c(\"rownames(mtcars)\" = \"car\")) %&gt;%\n  head(3)\n\n# full_join ejemplo\nmtcars %&gt;%\n3  dplyr::full_join(fabricantes, by = c(\"rownames(mtcars)\" = \"car\")) %&gt;%\n  head(3)\n\n\n1\n\nMantiene todas las filas del primer dataset, añadiendo coincidencias del segundo\n\n2\n\nMantiene solo registros con correspondencia exacta en ambas tablas\n\n3\n\nMantiene todos los registros, coincidan o no"
+  },
+  {
+    "objectID": "index.html#join-functions-básicas-sig.",
+    "href": "index.html#join-functions-básicas-sig.",
+    "title": "dplyr",
+    "section": "5.2 Join Functions Básicas (sig.)",
+    "text": "5.2 Join Functions Básicas (sig.)\n\n\n Funciones adicionales de join para combinar datasets:  - right_join() mantiene todas las filas del segundo dataset - semi_join() mantiene filas que tienen coincidencias - anti_join() mantiene filas sin coincidencias\n\n\n\n\n\nlibrary(dplyr)\n# Crear datos de ejemplo\nfabricantes &lt;- data.frame(\n  cyl = c(4, 6, 8),\n  tipo = c(\"Económico\", \"Medio\", \"Deportivo\")\n)\n# Usar right_join\nmtcars %&gt;%\n1  dplyr::right_join(fabricantes, by = \"cyl\") %&gt;%\n  head(3)\n# Usar semi_join\nmtcars %&gt;%\n2  dplyr::semi_join(fabricantes, by = \"cyl\") %&gt;%\n  head(3)\n# Usar anti_join\nmtcars %&gt;%\n3  dplyr::anti_join(fabricantes, by = \"cyl\") %&gt;%\n  head(3)\n\n\n1\n\nMantiene todas las filas de fabricantes\n\n2\n\nSolo filas de mtcars con coincidencias\n\n3\n\nSolo filas de mtcars sin coincidencias"
+  },
+  {
+    "objectID": "index.html#bind-operations",
+    "href": "index.html#bind-operations",
+    "title": "dplyr",
+    "section": "5.3 Bind Operations",
+    "text": "5.3 Bind Operations\n\n\n Las funciones bind_rows() y bind_cols() combinan datasets:  - bind_rows() une verticalmente (apila) datasets - bind_cols() une horizontalmente datasets - Manejan automáticamente tipos de columnas\n\n\n\n\n\nlibrary(dplyr)\n# Crear datos de ejemplo\ndf1 &lt;- mtcars[1:4, 1:3]\ndf2 &lt;- mtcars[5:8, 1:3]\ndf3 &lt;- data.frame(extra = letters[1:4])\n# Unir datasets verticalmente\n1bind_rows(df1, df2) %&gt;%\n  head(3)\n# Unir datasets con identificador\n2bind_rows(grupo1 = df1, grupo2 = df2, .id = \"grupo\") %&gt;%\n  head(3)\n# Unir datasets horizontalmente\n3bind_cols(df1, df3) %&gt;%\n  head(3)\n\n\n1\n\nUne datasets verticalmente manteniendo tipos de columnas\n\n2\n\nUne verticalmente añadiendo identificador de origen\n\n3\n\nUne datasets horizontalmente por posición"
+  },
+  {
+    "objectID": "index.html#row-names-management",
+    "href": "index.html#row-names-management",
+    "title": "dplyr",
+    "section": "6.1 Row Names Management",
+    "text": "6.1 Row Names Management\n\n\n Las funciones de manejo de nombres de filas facilitan su manipulación:  - Convertir una columna en nombres de fila: column_to_rownames() - Conbertir nombres de fila en una columna: rownames_to_column() - Útiles para reorganizar la estructura de datos\n\n\n\n\n\nlibrary(dplyr)\n# Convertir nombres de fila a columna\nmtcars %&gt;%\n1  tibble::rownames_to_column(var = \"modelo\") %&gt;%\n  head(3)\n# Convertir columna a nombres de fila\nmtcars %&gt;%\n  tibble::rownames_to_column(var = \"modelo\") %&gt;%\n2  tibble::column_to_rownames(var = \"modelo\") %&gt;%\n  head(3)\n# Combinar con otras operaciones\nmtcars %&gt;%\n  tibble::rownames_to_column(var = \"modelo\") %&gt;%\n3  dplyr::select(modelo, mpg, hp) %&gt;%\n  head(3)\n\n\n1\n\nConvierte nombres de fila a columna\n\n2\n\nConvierte columna a nombres de fila\n\n3\n\nCombina con otras operaciones"
+  },
+  {
+    "objectID": "index.html#na-handling-pull",
+    "href": "index.html#na-handling-pull",
+    "title": "dplyr",
+    "section": "6.2 NA Handling & Pull",
+    "text": "6.2 NA Handling & Pull\n\n\n Funciones para manejar valores NA y extraer datos:  - coalesce() y replace_na() para manejar valores faltantes - pull() para extraer una columna como vector - Útiles para limpieza y extracción de datos\n\n\n\n\n\nlibrary(dplyr)\n# Crear datos con NA\ndatos_na &lt;- mtcars %&gt;%\n  dplyr::mutate(mpg = replace(mpg, c(1,3,5), NA))\n\n# Usar coalesce y replace_na\ndatos_na %&gt;%\n  dplyr::mutate(\n1    mpg_coal = coalesce(mpg, mean(mpg, na.rm = TRUE)),\n2    mpg_repl = replace_na(mpg, 20)\n  ) %&gt;%                                             \n  head(3)\n# Usar pull para extraer valores\nmedia_mpg &lt;- mtcars %&gt;%   \n3  dplyr::pull(mpg) %&gt;%\n  mean()\n# Combinar pull con otras operaciones\npeso_ref_por_cyl &lt;- mtcars %&gt;%\n  dplyr::group_by(cyl) %&gt;%\n  dplyr::summarise(peso_ref = mean(wt)) %&gt;%\n4  dplyr::pull(peso_ref, name = cyl)\n\n\n1\n\nReemplaza NA en mpg por la media de mpg\n\n2\n\nReemplaza NA en mpg por el valor 20\n\n3\n\nExtrae columna como vector\n\n4\n\nPull con nombres"
+  }
+]
