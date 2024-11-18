@@ -243,8 +243,6 @@ mtcars %>%
 3. Maneja y filtra valores NA explícitamente
 :::
 
-
-
 ## Filter Extensions
 
 ::: {focus-on="cr-mediaPlanR30"}
@@ -277,12 +275,12 @@ mtcars %>%
   head(3)
 # Filtrado con if_all (AND lógico)
 mtcars %>%
-  filter(if_all(c(hp, mpg), ~ . > mean(.))) %>%    # <2>
+  filter(if_all(c(hp, mpg), ~ . < mean(.))) %>%    # <2>
   select(hp, mpg) %>%
   arrange(desc(hp))
 ```
-1. Mantiene filas donde hp > 146.7 O mpg > 20.1 (basta una condición)
-2. Mantiene filas donde hp > 146.7 Y mpg > 20.1 (ambas condiciones)
+1. Mantiene filas donde hp > 146.7 **O** mpg > 20.1 (basta una condición)
+2. Mantiene filas donde hp < 146.7 **Y** mpg < 20.1 (ambas condiciones)
 :::
 
 ## Slice
@@ -328,7 +326,7 @@ mtcars %>%
 > Las variantes de slice() ofrecen diferentes formas de selección:
 > <br><br>
 > - slice_head(), slice_tail(): Primeras/últimas filas<br>
-> - slice_min(), slice_max(): Filas basadas en valores<br>
+> - slice_min(), slice_max(): Filas basadas en valores máximos o mínimos<br>
 > - slice_sample(): Muestreo aleatorio<br>
 \
 :::
@@ -409,9 +407,9 @@ mtcars %>%
 > La función relocate() reposiciona columnas en el dataset:
 > <br><br>
 > 
-> Mueve columnas a posiciones específicas<br>
-> Acepta helpers como starts_with(), contains()<br>
-> Más flexible que select() para reordenar<br>
+> - Mueve columnas a posiciones específicas<br>
+> - Acepta helpers como starts_with(), contains()<br>
+> - Más flexible que select() para reordenar<br>
 \
 :::
 
@@ -443,7 +441,7 @@ mtcars %>%
 
 ::: {focus-on="cr-mediaPlanR10"}
 > []{style="color:#000000; font-size: 230%"} 
-> La función distinct() de dplyr elimina filas duplicadas:
+> La función distinct() elimina filas duplicadas:
 > <br><br>
 > - Retiene filas únicas<br>
 > - Puede especificar columnas para la unicidad<br>
@@ -481,7 +479,7 @@ mtcars %>%
 
 ::: {focus-on="cr-mediaPlanR04"}
 > []{style="color:#000000; font-size: 230%"} 
-> La función mutate() de dplyr añade nuevas columnas o transforma existentes:
+> La función mutate() añade nuevas columnas o transforma existentes:
 > <br><br>
 > - Crea nuevas columnas basadas en cálculos<br>
 > - Modifica columnas existentes<br>
@@ -507,10 +505,15 @@ mtcars %>%
 mtcars %>%
   dplyr::mutate(log_hp = log(hp)) %>%                   # <3>
   head(3)
+# Calcular el ranking por mpg
+mtcars %>%
+ dplyr::mutate(rank = dense_rank(desc(mpg))) %>%        # <4>
+ head(3)
 ```
 1. Crea nuevas columnas
 2. Modifica columnas existentes
 3. Aplica funciones a columnas
+4. Asigna rangos consecutivos pero da el mismo rango a valores iguales, sin dejar huecos en la secuencia
 :::
 
 ## Mutate Avanzado
@@ -567,10 +570,10 @@ mtcars %>%
 
 ::: {focus-on="cr-mediaPlanR12"}
 > []{style="color:#000000; font-size: 230%"} 
-> La función transmute() de dplyr crea nuevas columnas y descarta las existentes:
+> La función transmute() crea nuevas columnas y descarta las existentes:
 > <br><br>
 > - Similar a mutate(), pero solo mantiene las nuevas columnas<br>
-> - Útil para crear subconjuntos de datos transformados<br>
+> - Útil para crear subconjuntos de columnas transformadas<br>
 > - Simplifica el data frame resultante<br>
 \
 :::
@@ -607,10 +610,10 @@ mtcars %>%
 
 ::: {focus-on="cr-mediaPlanR09"}
 > []{style="color:#000000; font-size: 230%"} 
-> La función rename() de dplyr cambia el nombre de columnas específicas:
+> La función rename() cambia el nombre de columnas específicas:
 > <br><br>
 > - Renombra una o más columnas<br>
-> - No afecta otras columnas<br>
+> - No afecta a otras columnas<br>
 > - Mantiene el orden de las columnas<br>
 \
 :::
@@ -635,16 +638,16 @@ mtcars %>%
   dplyr::select(consumo, everything()) %>%               # <3>
   head(3)
 ```
-1. Renombrar una sola columna
-2. Renombrar múltiples columnas
-3. Renombrar y reordenar columnas
+1. Renombra una sola columna
+2. Renombra múltiples columnas
+3. Renombra, y posteriormente reordena columnas
 :::
 
 ## Rename_with
 
 ::: {focus-on="cr-mediaPlanR14"}
 > []{style="color:#000000; font-size: 230%"} 
-> La función rename_with() de dplyr aplica una función a los nombres de columnas:
+> La función rename_with() aplica una función a los nombres de columnas:
 > <br><br>
 > - Transforma nombres de columnas de manera programática<br>
 > - Útil para estandarizar o modificar nombres<br>
@@ -682,7 +685,7 @@ mtcars %>%
 
 ::: {focus-on="cr-mediaPlanR05"}
 > []{style="color:#000000; font-size: 230%"} 
-> La función summarise() de dplyr resume datos mediante cálculos:
+> La función summarise() resume datos mediante cálculos:
 > <br><br>
 > - Calcula estadísticas resumidas<br>
 > - Se usa comúnmente con group_by()<br>
@@ -712,9 +715,9 @@ mtcars %>%
                    conteo = n()) %>%                   # <3>
   head(3)
 ```
-1. Resumir con una sola estadística
-2. Resumir con múltiples estadísticas
-3. Resumir por grupos
+1. Resume con una sola estadística
+2. Resume con múltiples estadísticas
+3. Resume por grupos
 :::
 
 ## Summarise Avanzado
@@ -723,9 +726,9 @@ mtcars %>%
 > []{style="color:#000000; font-size: 230%"} 
 > Técnicas avanzadas de resumen:
 > <br><br>
-> - summarise_all(): Aplicar a todas las columnas<br>
-> - summarise_if(): Aplicar condicionalmente<br>
-> - summarise_at(): Aplicar a columnas específicas<br>
+> - summarise_all() aplica a todas las columnas<br>
+> - summarise_if() aplica condicionalmente<br>
+> - summarise_at() aplica a columnas específicas<br>
 \
 :::
 
@@ -761,7 +764,7 @@ mtcars %>%
 
 ::: {focus-on="cr-mediaPlanR06"}
 > []{style="color:#000000; font-size: 230%"} 
-> La función group_by() de dplyr agrupa el data frame para operaciones posteriores:
+> La función group_by() agrupa el data frame para operaciones posteriores:
 > <br><br>
 > - Agrupa filas basadas en una o más columnas<br>
 > - Es esencial para cálculos por grupo<br>
@@ -780,20 +783,20 @@ mtcars %>%
   dplyr::group_by(cyl) %>%                             # <1>
   dplyr::summarise(promedio_mpg = mean(mpg)) %>%
   head(3)
-# Agrupar por cilindros y transmisión
-mtcars %>%
-  dplyr::group_by(cyl, am) %>%                         # <2>
-  dplyr::summarise(promedio_mpg = mean(mpg)) %>%
-  head(3)
 # Usar group_by con mutate
 mtcars %>%
   dplyr::group_by(cyl) %>%
-  dplyr::mutate(promedio_mpg = mean(mpg)) %>%          # <3>
+  dplyr::mutate(promedio_mpg = mean(mpg)) %>%          # <2>
+  head(3)
+# Agrupar por cilindros y transmisión
+mtcars %>%
+  dplyr::group_by(cyl, am) %>%                         # <3>
+  dplyr::summarise(promedio_mpg = mean(mpg)) %>%
   head(3)
 ```
 1. Agrupa por una columna
+3. Agrupa y muta (transforma) por una columna
 2. Agrupa por múltiples columnas
-3. Agrupa y muta (transforma)
 :::
 
 ## Group_by Avanzado
@@ -802,7 +805,6 @@ mtcars %>%
 > []{style="color:#000000; font-size: 230%"} 
 > Técnicas avanzadas de agrupación:
 > <br><br>
-> - group_by() con múltiples columnas<br>
 > - group_modify() para operaciones complejas<br>
 > - ungroup() para eliminar agrupaciones<br>
 \
@@ -813,33 +815,20 @@ mtcars %>%
 code-annotations: hover
 ---
 ```{r class.source="bg-light", style="width:130%; font-size:85%"}
-library(dplyr)
-# Agrupación múltiple con cálculos
-mtcars %>%
-  dplyr::group_by(cyl, am) %>%
-  dplyr::summarise(
-    mpg_mean = mean(mpg),
-    hp_sd = sd(hp)
-  ) %>%                                               # <1>
-  head(3)
-
 # Usar group_modify para operaciones complejas
 mtcars %>%
   dplyr::group_by(cyl) %>%
-  dplyr::group_modify(~ head(.x, 2)) %>%              # <2>
-  head(3)
-
+  dplyr::group_modify(~ head(.x, 2))                  # <1>
 # Desagrupar y realizar operaciones
 mtcars %>%
   dplyr::group_by(cyl) %>%
   dplyr::mutate(mpg_mean = mean(mpg)) %>%
-  dplyr::ungroup() %>%                                # <3>
+  dplyr::ungroup() %>%                                # <2>
   dplyr::mutate(overall_diff = mpg - mean(mpg)) %>%
   head(3)
 ```
-1. Aplica resúmenes por múltiples variables de agrupación
-2. Ejecuta función personalizada en cada grupo manteniendo la estructura
-3. Elimina agrupación para cálculos a nivel global
+1. Ejecuta una función personalizada en cada grupo manteniendo la estructura
+2. Elimina agrupación para cálculos a nivel global
 :::
 
 ## Count
@@ -934,12 +923,10 @@ fabricantes <- data.frame(
 mtcars %>%
   dplyr::left_join(fabricantes, by = c("rownames(mtcars)" = "car")) %>%  # <1>
   head(3)
-
 # inner_join ejemplo
 mtcars %>%
   dplyr::inner_join(fabricantes, by = c("rownames(mtcars)" = "car")) %>% # <2>
   head(3)
-
 # full_join ejemplo
 mtcars %>%
   dplyr::full_join(fabricantes, by = c("rownames(mtcars)" = "car")) %>% # <3>
@@ -956,8 +943,7 @@ mtcars %>%
 > []{style="color:#000000; font-size: 230%"} 
 > Funciones adicionales de join para combinar datasets:
 > <br><br>
-> - right_join() mantiene todas las filas del segundo dataset<br>
-> - semi_join() mantiene filas que tienen coincidencias<br>
+> - semi_join() mantiene filas que tienen coincidencias, pero solo mantiene las columnas de la primera tabla<br>
 > - anti_join() mantiene filas sin coincidencias<br>
 \
 :::
@@ -973,22 +959,17 @@ fabricantes <- data.frame(
   cyl = c(4, 6, 8),
   tipo = c("Económico", "Medio", "Deportivo")
 )
-# Usar right_join
-mtcars %>%
-  dplyr::right_join(fabricantes, by = "cyl") %>%     # <1>
-  head(3)
 # Usar semi_join
 mtcars %>%
-  dplyr::semi_join(fabricantes, by = "cyl") %>%      # <2>
+  dplyr::semi_join(fabricantes, by = "cyl") %>%      # <1>
   head(3)
 # Usar anti_join
 mtcars %>%
-  dplyr::anti_join(fabricantes, by = "cyl") %>%      # <3>
+  dplyr::anti_join(fabricantes, by = "cyl") %>%      # <2>
   head(3)
 ```
-1. Mantiene todas las filas de fabricantes
-2. Solo filas de mtcars con coincidencias
-3. Solo filas de mtcars sin coincidencias
+1. Solo filas de mtcars con coincidencias, pero solo mantiene las columnas de la primera tabla
+2. Solo filas de mtcars sin coincidencias
 :::
 
 ## Bind Operations
@@ -1014,21 +995,17 @@ df1 <- mtcars[1:4, 1:3]
 df2 <- mtcars[5:8, 1:3]
 df3 <- data.frame(extra = letters[1:4])
 # Unir datasets verticalmente
-bind_rows(df1, df2) %>%                                   # <1>
-  head(3)
+bind_rows(df1, df2)                                   # <1>
 # Unir datasets con identificador
-bind_rows(grupo1 = df1, grupo2 = df2, .id = "grupo") %>%  # <2>
-  head(3)
+bind_rows(grupo1 = df1, grupo2 = df2, .id = "grupo")  # <2>
 # Unir datasets horizontalmente
-bind_cols(df1, df3) %>%                                   # <3>
-  head(3)
+bind_cols(df1, df3)                                   # <3>
 ```
 
 1. Une datasets verticalmente manteniendo tipos de columnas
 2. Une verticalmente añadiendo identificador de origen
 3. Une datasets horizontalmente por posición
 :::
-
 
 # **Funciones Auxiliares**
 
@@ -1039,7 +1016,7 @@ bind_cols(df1, df3) %>%                                   # <3>
 > Las funciones de manejo de nombres de filas facilitan su manipulación:
 > <br><br>
 > - Convertir una columna en nombres de fila: column_to_rownames()<br>
-> - Conbertir nombres de fila en una columna: rownames_to_column()<br>
+> - Convertir nombres de fila en una columna: rownames_to_column()<br>
 > - Útiles para reorganizar la estructura de datos<br>
 \
 :::
@@ -1059,15 +1036,9 @@ mtcars %>%
   tibble::rownames_to_column(var = "modelo") %>%
   tibble::column_to_rownames(var = "modelo") %>%      # <2>
   head(3)
-# Combinar con otras operaciones
-mtcars %>%
-  tibble::rownames_to_column(var = "modelo") %>%
-  dplyr::select(modelo, mpg, hp) %>%                  # <3>
-  head(3)
 ```
 1. Convierte nombres de fila a columna
 2. Convierte columna a nombres de fila
-3. Combina con otras operaciones
 :::
 
 ## NA Handling & Pull
@@ -1090,29 +1061,30 @@ code-annotations: hover
 library(dplyr)
 # Crear datos con NA
 datos_na <- mtcars %>%
-  dplyr::mutate(mpg = replace(mpg, c(1,3,5), NA))
+  dplyr::mutate(mpg = replace(mpg, c(1,3,5), NA))         # <1>
 
 # Usar coalesce y replace_na
 datos_na %>%
   dplyr::mutate(
-    mpg_coal = coalesce(mpg, mean(mpg, na.rm = TRUE)),    # <1>
-    mpg_repl = replace_na(mpg, 20)                        # <2>
+    mpg_coal = coalesce(mpg, mean(mpg, na.rm = TRUE)),    # <2>
+    mpg_repl = replace_na(mpg, 20)                        # <3>
   ) %>%                                             
   head(3)
 # Usar pull para extraer valores
 media_mpg <- mtcars %>%   
-  dplyr::pull(mpg) %>%                                    # <3>              
+  dplyr::pull(mpg) %>%                                    # <4>              
   mean()
 # Combinar pull con otras operaciones
 peso_ref_por_cyl <- mtcars %>%
   dplyr::group_by(cyl) %>%
   dplyr::summarise(peso_ref = mean(wt)) %>%
-  dplyr::pull(peso_ref, name = cyl)                       # <4>
+  dplyr::pull(peso_ref, name = cyl)                       # <5>
 ```
-1. Reemplaza NA en mpg por la media de mpg
-1. Reemplaza NA en mpg por el valor 20
-2. Extrae columna como vector
-3. Pull con nombres
+1. Reemplaza con NA los valores de la columna mpg en las posiciones 1, 3 y 5 
+2. Reemplaza NA en mpg por la media de mpg
+3. Reemplaza NA en mpg por el valor 20
+4. Extrae columna como vector
+5. Pull con nombres
 :::
 
 ___
