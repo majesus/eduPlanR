@@ -1,9 +1,9 @@
 /*-- scss:defaults --*/
-// Primero, importamos la fuente correctamente
+  // Primero, importamos la fuente correctamente
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 
 /*-- scss:rules --*/
-// Variables con fallbacks específicos
+  // Variables con fallbacks específicos
 $font-primary: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 $font-secondary: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 $color-accent: tomato;
@@ -17,45 +17,45 @@ body {
 
 // Estilos del documento
 #quarto-document-content {
-  font-family: $font-primary !important;
-  font-size: 15pt;
-  margin-bottom: 20vh;
-  padding-bottom: 10vh;
-  z-index: 1;
-  margin-left: 20px;
+font-family: $font-primary !important;
+font-size: 15pt;
+margin-bottom: 20vh;
+padding-bottom: 10vh;
+z-index: 1;
+margin-left: 20px;
 
-  h1 {
-    font-family: $font-primary !important;
-    font-weight: 500;
-    font-size: 2.8em;
-    line-height: 1;
-  }
+h1 {
+  font-family: $font-primary !important;
+  font-weight: 500;
+  font-size: 2.8em;
+  line-height: 1;
+}
 }
 
 // Estilos del TOC
 #TOC {
-  position: fixed;
-  left: 0;
-  top: 60px;
-  width: 300px;
-  height: calc(100vh - 60px);
-  overflow-y: auto;
-  padding: 20px;
-  background-color: white;
-  border-right: 1px solid #eee;
-  font-family: $font-primary;
-  font-size: 14px;
+position: fixed;
+left: 0;
+top: 60px;
+width: 300px;
+height: calc(100vh - 60px);
+overflow-y: auto;
+padding: 20px;
+background-color: white;
+border-right: 1px solid #eee;
+font-family: $font-primary;
+font-size: 14px;
 
-  a {
-    color: inherit;
-    text-decoration: none;
-    display: block;
-    padding: 4px 0;
-
-    &:hover {
-      color: $color-accent;
-    }
+a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  padding: 4px 0;
+  
+  &:hover {
+    color: $color-accent;
   }
+}
 }
 
 // Ajustes TOC
@@ -74,24 +74,24 @@ body.has-toc {
     padding-left: 30px;
     padding-right: 30px;
   }
-
+  
   &.sidebar-left {
     .sticky-col {
       padding-left: 30px;
       padding-right: 30px;
     }
-
+    
     .narrative-col {
       background-color: transparent;
       min-width: 40svw;
       padding-left: 80px;
-
+      
       > *:first-child {
         padding-block-start: 20svh;
       }
     }
   }
-
+  
   &.overlay-center .narrative-col {
     .narrative {
       background-color: rgba(0, 0, 0, 0.85);
@@ -104,11 +104,11 @@ body.has-toc {
       left: 50%;
       transform: translate(-50%, -50%);
     }
-
+    
     > *:first-child {
       padding-block-start: 50svh;
     }
-
+    
     .trigger .narrative {
       padding: 0;
       p {
@@ -120,45 +120,45 @@ body.has-toc {
 
 // Estilos de info
 #info {
-  background-color: linen !important;
-  position: fixed;
-  z-index: -1;
-  width: 100%;
-  height: 40vh;
-  bottom: 0;
+background-color: linen !important;
+position: fixed;
+z-index: -1;
+width: 100%;
+height: 40vh;
+bottom: 0;
 
-  p {
-    text-align: center;
-    font-family: 'Oswald';
-    font-weight: 100;
-    font-size: 1.1rem;
-    margin: 0;
-    position: relative;
-    display: flexbox;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+p {
+  text-align: center;
+  font-family: 'Oswald';
+  font-weight: 100;
+  font-size: 1.1rem;
+  margin: 0;
+  position: relative;
+  display: flexbox;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 }
 
 // Responsive
 @media (max-width: 991.98px) {
   #TOC {
-    position: static;
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-    border-right: none;
-    border-bottom: 1px solid #eee;
-  }
+  position: static;
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-right: none;
+  border-bottom: 1px solid #eee;
+}
 
-  body.has-toc {
-    padding-left: 0;
-  }
+body.has-toc {
+  padding-left: 0;
+}
 
-  #quarto-document-content {
-    margin-left: 0;
-  }
+#quarto-document-content {
+margin-left: 0;
+}
 }
 
 @media (max-width: 576px) {
@@ -170,7 +170,7 @@ body.has-toc {
     &.overlay-center {
       .narrative-col {
         background-color: transparent;
-
+        
         .narrative > * {
           background-color: rgba(255, 255, 255, .9);
           padding: 5px;
@@ -186,30 +186,30 @@ body.has-toc {
         }
       }
     }
-
+    
     .narrative-col .trigger .narrative {
       padding: 0;
     }
   }
-
+  
   #info p {
-    font-size: 0.8rem;
-    padding: 0 10px;
-  }
+  font-size: 0.8rem;
+  padding: 0 10px;
+}
 }
 
 
 #quarto-document-content {
-  font-family: "Roboto Slab", Georgia, "Times New Roman", Times, serif;
-  font-size: 15pt;
-  margin-bottom: 20vh;
-  padding-bottom: 10vh;
-  z-index: 1;
+font-family: "Roboto Slab", Georgia, "Times New Roman", Times, serif;
+font-size: 15pt;
+margin-bottom: 20vh;
+padding-bottom: 10vh;
+z-index: 1;
 }
 
 #quarto-document-content h1 {
-  font-family: "Roboto Slab", "Cormorant Garamond", "Times New Roman", Times, serif;
-  font-weight: 500;
-  font-size: 2.8em;
-  line-height: 1;
+font-family: "Roboto Slab", "Cormorant Garamond", "Times New Roman", Times, serif;
+font-weight: 500;
+font-size: 2.8em;
+line-height: 1;
 }
